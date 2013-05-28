@@ -1,0 +1,34 @@
+diff -Naur a/hda_codec.py b/hda_codec.py
+--- a/hda_codec.py	2013-05-28 20:57:22.029896628 +0200
++++ b/hda_codec.py	2013-05-28 20:57:22.036563294 +0200
+@@ -648,7 +648,7 @@
+   def eapdbtl_set_value(self, name, value):
+     mask = 1 << EAPDBTL_BITS[name]
+     value = value and True or False
+-    changed = (self.pincap_eapdbtls & mask) and not value or value
++    changed = not value if (self.pincap_eapdbtls & mask) else value
+     if value:
+       self.pincap_eapdbtls |= mask
+     else:
+@@ -677,7 +677,7 @@
+     if name in PIN_WIDGET_CONTROL_BITS:
+       mask = 1 << PIN_WIDGET_CONTROL_BITS[name]
+       value = value and True or False
+-      changed = (self.pinctls & mask) and not value or value
++      changed = not value if (self.pinctls & mask) else value
+       if value:
+         self.pinctls |= mask
+       else:
+diff -Naur a/hda_proc.py b/hda_proc.py
+--- a/hda_proc.py	2013-05-28 20:57:22.029896628 +0200
++++ b/hda_proc.py	2013-05-28 20:57:22.036563294 +0200
+@@ -262,7 +262,8 @@
+     line, type = self.decodestrw(line, 'type=')
+     line, device = self.decodeintw(line, 'device=')
+     if self.device:
+-      self.wrongfile('more than one PCM device?')
++      #self.wrongfile('more than one PCM device?')
++      return
+     self.device = HDApcmDevice(name, type, device)
+ 
+   def get_device(self):
