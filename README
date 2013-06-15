@@ -1,13 +1,17 @@
-enable-headphones
+Enable Headphones
 -----------------
 
-Small project which enables headphones on my laptop using ALSA hda-analyzer
-tools. It is provided "as-is" without any warranty and even if it is working on
-my laptop, it might as well does not work on your computer.
+This small project enables the headphone output of the sound card of my laptop.
+It is provided "as-is" without any warranty and even if it is working on, it
+might as well does not work on your computer.
+
 
 What does it do ?
 -----------------
-Sometimes ALSA misconfigured the headphones output and no sound came out.
-Using hda-analyzer I was able to find a setting in an ALSA node which was wrong.
-Changing this settings everytime by hand is painful so I wrote a small Python
-script to do it automatically for me.
+
+Sometimes ALSA misconfigures the headphone output of my sound card and no sound
+comes out. Using hda-analyzer (from http://git.alsa-project.org/?p=alsa.git)
+I was able to find a setting in an ALSA node which was wrongly changed each
+time a Jack cable is pluged in. Changing this setting solves the sound problem,
+but it is painful to do it by hand (with HDA-Analyzer GUI). Therefore I have
+written a small Python to do it automatically for me.
