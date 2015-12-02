@@ -285,7 +285,8 @@ class ProcNode(HDABaseProc):
       'Non-Copyright': DIG1_BITS['COPYRIGHT'],
       'Non-Audio': DIG1_BITS['NONAUDIO'],
       'Pro': DIG1_BITS['PROFESSIONAL'],
-      'GenLevel': DIG1_BITS['LEVEL']
+      'GenLevel': DIG1_BITS['LEVEL'],
+      'KAE' : -1 # ignore, so far
     }
     xbits = 0
     a = line.split(' ')
@@ -295,7 +296,8 @@ class ProcNode(HDABaseProc):
         return
       if not b in bits:
         self.wrongfile('unknown dig1 bit %s' % repr(b))
-      xbits |= 1 << bits[b]
+      if bits[b] >= 0:
+        xbits |= 1 << bits[b]
     self.add_verb(VERBS['GET_DIGI_CONVERT_1'], xbits)
 
   def add_digitalcategory(self, line):
@@ -728,6 +730,13 @@ class HDACodecProc(HDACodec, HDABaseProc):
           node.add_processindex(line[21:])
         elif line.startswith('  Volume-Knob: '):
           node.add_volknob(line[15:])
+        elif line.startswith('  In-driver Connection: '):
+          idx += 1
+          pass
+        elif line.startswith('  Devices: '):
+          pass
+        elif line.startswith('     Dev '):
+          pass
         else:
           self.wrongfile(line)
         idx += 1
